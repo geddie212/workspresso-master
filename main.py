@@ -5,17 +5,15 @@ import os
 
 app = Flask(__name__)
 
-# SQL = os.environ.get('DATABASE_URL').split('postgres')
-# SQL[0] += 'postgresql'
-# updated_SQL = f'{SQL[0]}{SQL[1]}'
-updated_SQL = 'postgresql://wskrrwbfsimlao:395b197cdb774d7d3c1d265e3433555df463a6995694da95eedb5e3e918909d5@ec2-3-248-121-12.eu-west-1.compute.amazonaws.com:5432/dfdsggdmc8feet'
+SQL = os.environ.get('DATABASE_URL').split('postgres')
+SQL[0] += 'postgresql'
+updated_SQL = f'{SQL[0]}{SQL[1]}'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = updated_SQL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # SECRET KEY SETUP
-# app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY')
-app.config["SECRET_KEY"] = '349o2dx7r86tbhn47c55476hnrytc26h734dh78924rd36g8'
+app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 
 filters = dict(location='all', sockets='all', wifi='all', toilet='all', calls='all', seats='all', coffee_price='all')
@@ -39,9 +37,6 @@ class Cafe(db.Model):
     coffee_price = db.Column(db.String(250), nullable=False)
 
 
-db.create_all()
-
-
 def cafe_output():
     global filters
 
@@ -51,9 +46,9 @@ def cafe_output():
         if filters[key] == 'all':
             filters[key] = None
         elif filters[key] == 'yes':
-            filters[key] = 0
+            filters[key] = False
         elif filters[key] == 'no':
-            filters[key] = 1
+            filters[key] = True
 
     query = Cafe.query.filter(Cafe.has_sockets != filters['sockets'],
                               Cafe.has_wifi != filters['wifi'],

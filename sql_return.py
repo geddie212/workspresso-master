@@ -31,3 +31,20 @@ class SQLReturn:
         one_cafe = main.Cafe.query.filter_by(name=cafe_name).first()
         return one_cafe
 
+    def get_all_records(self):
+        all_records = []
+        for cafe in self.db_all:
+            all_records.append(dict(name=cafe.name, map_url=cafe.map_url, img_url=cafe.img_url, location=cafe.location,
+                                    has_sockets=cafe.has_sockets, has_toilet=cafe.has_toilet, has_wifi=cafe.has_wifi,
+                                    can_take_calls=cafe.can_take_calls, seats=cafe.seats,
+                                    coffee_price=cafe.coffee_price))
+        print(all_records)
+
+    def make_record(self, list_dict):
+
+        for r in list_dict:
+            record = main.Cafe(name=r['name'], map_url=r['map_url'], img_url=r['img_url'], location=r['location'],
+                               has_sockets=r['has_sockets'], has_toilet=r['has_toilet'], has_wifi=r['has_wifi'],
+                               can_take_calls=r['can_take_calls'], seats=r['seats'], coffee_price=r['coffee_price'])
+            main.db.session.add(record)
+            main.db.session.commit()

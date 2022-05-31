@@ -29,7 +29,8 @@
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
             <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="../static/img/favicon.png" class="mr-2"
                                                                            alt="logo"/><h5>Workspresso</h5></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../static/img/favicon.png" alt="logo"/><h5>Workspresso</h5></a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../static/img/favicon.png" alt="logo"/>
+                <h5>Workspresso</h5></a>
 
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -425,7 +426,8 @@
                                 <ul class="icon-data-list">
                                     {% for cafe in cafe_info %}
                                     <li class="nav-item nav-item-hover">
-                                        <a class="nav-link nav-item nav-item-hover" href="{{ url_for('img_selector', cafe_name=cafe.name) }}">
+                                        <a class="nav-link nav-item nav-item-hover"
+                                           href="{{ url_for('img_selector', cafe_name=cafe.name) }}">
                                             <div class="d-flex ">
                                                 <img src="{{ cafe.img_url }}" alt="{{ cafe.name }}">
                                                 <div>
