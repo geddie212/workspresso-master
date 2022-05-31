@@ -9,7 +9,6 @@ SQL = os.environ.get('DATABASE_URL').split('postgres')
 SQL[0] += 'postgresql'
 updated_SQL = f'{SQL[0]}{SQL[1]}'
 
-
 app.config['SQLALCHEMY_DATABASE_URI'] = updated_SQL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
