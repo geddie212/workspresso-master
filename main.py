@@ -2,14 +2,21 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import sql_return
 import os
-import sys
-print(sys.version)
 
 app = Flask(__name__)
-SQL = 'sqlite:///cafes.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = SQL
+
+SQL = os.environ.get('DATABASE_URL').split('postgres')
+SQL[0] += 'postgresql'
+updated_SQL = f'{SQL[0]}{SQL[1]}'
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = updated_SQL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+# SECRET KEY SETUP
+app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY')
+
 
 filters = dict(location='all', sockets='all', wifi='all', toilet='all', calls='all', seats='all', coffee_price='all')
 img_selected = False
@@ -32,6 +39,9 @@ class Cafe(db.Model):
     coffee_price = db.Column(db.String(250), nullable=False)
 
 
+db.create_all()
+
+
 def cafe_output():
     global filters
 
@@ -44,7 +54,6 @@ def cafe_output():
             filters[key] = 0
         elif filters[key] == 'no':
             filters[key] = 1
-
 
     query = Cafe.query.filter(Cafe.has_sockets != filters['sockets'],
                               Cafe.has_wifi != filters['wifi'],
@@ -105,7 +114,6 @@ def img_selector(cafe_name):
     cafe_name_loc = [cafe_url.name, cafe_url.location]
     cafe_url = cafe_url.img_url
     return redirect(url_for('home'))
-
 
 
 @app.route('/')
