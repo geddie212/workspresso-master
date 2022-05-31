@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import sql_return
 import os
+import sys
+print(sys.version)
 
 app = Flask(__name__)
 SQL = 'sqlite:///cafes.db'
